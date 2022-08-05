@@ -37,3 +37,17 @@ Here are some optional variables to use during the floorplanning stage letting u
 <img src="Day2/RunFP.png">
 Then checking the log files we can see that the lef and def files were generated
 <img src="Day2/IoLog.png">
+We can also check the config.tcl used this run and see which variables were changed
+<img src="Day2/Configtcl.png">
+<img src="Day2/Configtc2.png">
+Our changes to the metals were successful as well as the core size. Checking also the def and lef files using magic we get the following
+<img src="Day2/MagicFP.png">
+<img src="Day2/PinsFP.png">
+<img src="Day2/PinsFP2.png">
+
+## Placement
+First we are going to do the global placement which is a rough sketch of the placement, usign the run_placement command. This will iterate the position of the blocks until the timing is correct. And then we can legalized with the detailed placement
+<img src="Day2/Placement.png">
+<img src="Day2/PlacementMagic.png">
+On magic we can check the changes as such. If we zoom in we can see the standard cells placed in the design
+<img src="Day2/PlacementZoom.png">
