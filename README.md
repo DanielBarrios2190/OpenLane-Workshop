@@ -29,8 +29,8 @@ Here we can see that it was a successful run, and we can analyze the reports on 
 <img src="Day1/SynthReport2.png">
 We can see how many cells we used (A total of 14876 of which 1613 are Flipflops and 1664 are buffers, giving us a Flop Rate of around 10.84%)
 
-#Day 2
-##Floorplanning
+# Day 2
+## Floorplanning
 First of all we will check what variables are used in the Floorplanning stage
 <img src="Day2/VariablesFP.png">
 Here are some optional variables to use during the floorplanning stage letting us configure things like the aspect ratio, the extension of the IO pins, the Die area and such. Then we can take these variables and use then in the corresponding .tcl file or let them be the default settings. Running the run_floorplan command we can see its effect
