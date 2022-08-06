@@ -85,3 +85,102 @@ It is important to know how much space the standard cell occupies, and how much 
 
 
 <img src="Day4/Grid.png">
+There are a couple of rules that you have to abide to make a correct standard cell, such as the width of the cell being a multiple of the vertical pitch, and the pins falling in a cross section of the horizontal and vertical tracks. After correcting our cell we are going to extract its lef file. We do this with "save (name).mag" then "lef write"
+<img src="Day4/SaveLEF.png">
+<img src="Day4/LEF.png">
+To use them in the design, we copy the newly generated LEF and the lib files into the source folder in the project. Then add the commands needed in the config.tcl file
+<img src="Day4/FilesNeed.png">
+
+<img src="Day4/Configtcl.png">
+We can check if this worked by rerunning our synthesis and it shows as such:
+<img src="Day4/SynthA.png">
+Sadly this results in a timing violation so we got to fix it
+<img src="Day4/Violation.png">
+
+## Fixing Slack
+We can change our Synth Strategy, enable cell buffering setting SYNTH_STRATEGY to DELAY 1 and SYNTH_SIZING to 1. We get
+<img src="Day4/ViolationFixed.png">
+
+## Floorplan and Placement
+We run step by step using the commands
+```
+init_floorplan
+place_io
+global_placement_or
+tap_decap_or
+detailed_placement
+gen_pdn
+```
+We can check each result going into the results folder
+<img src="Day4/MagicPL.png">
+<img src="Day4/NOT.png">
+<img src="Day4/Expanded.png">
+
+Now need to first create a .conf file and a .sdc file
+```
+vi pre_sta.conf
+vi base.sdc
+```
+And then fill it as such
+<img src="Day4/Conf.png">
+<img src="Day4/SDC.png">
+With this files we can run OpenSTA to check the slack using 
+```
+sta pre_sta.conf
+```
+We can see we still have a Violation of slack. To improve this we are going to reduce the fanout drive to 4 and rerun the synthesis 
+Checking again the file. We have to change one high capacitance cell, in this case the Mux_2_1 was giving us problems so we replace it with Mux_2_4
+<img src="Day4/FixedSlack.png">
+This increases our area but fixes the delay violations. Now that we have the desired output, we use write_verilog to change our synthetized design with the corresponding changes.
+And run floorplan and placement once again
+
+## CTS
+To start a CTS run we use run_cts command
+<img src="Day4/CTS.png">
+Now we just have to validate it
+After running the following commands
+```
+read_lef designs/picorv32a/runs/06-08_15-30/tmp/merged.lef
+read_def designs/picorv32a/runs/06-08_15-30/results/cts/picorv32a.cts.def
+write_db pico_cts.db
+read_db pico_cts.db
+read_verilog designs/picorv32a/runs/09-07_05-15/results/synthesis/picorv32a.synthesis_cts.v
+read_liberty -max designs/picorv32a/src/sky130_fd_sc_hd__slow.lib
+read_liberty -min designs/picorv32a/src/sky130_fd_sc_hd__fast.lib
+read_sdc designs/picorv32a/src/picorv32a.sdc
+set_propagated_clock [all_clocks]
+report_checks -path_delay min_max -format full_clock_expanded -digits 4
+```
+While using the typical.lib 
+
+<img src="Day4/Random1.png">
+<img src="Day4/Random2.png">
+
+
+We set the wrong lib files so we change the lib_complete variable and we get
+```
+read_liberty designs/picorv32a/src/sky130_fd_sc_hd__typical.lib
+echo $::env(CURRENT_DEF)
+set ::env(CURRENT_DEF) placement/picorv32a.placement.def 
+```
+<img src="Day4/HoldV.png">
+To fix this we change the Clock buffers, and the results are
+```
+set ::env(CTS_CLK_BUFFER_LIST) [lreplace $::env(CTS_CLK_BUFFER_LIST) 0 0] 
+```
+<img src="Day4/Good1.png">
+<img src="Day4/Good2.png">
+We are now respecting both Setup and Hold times so we are good to go
+
+# Day 5
+## PDN Generation
+To create a PDN file we use the gen_pdn command
+<img src="Day5/PDN1.png">
+
+## Routing
+Now we want to do rounting so we use the run_routing command. This will iterate the routes to make sure there are no DRC Violations.
+<img src="Day5/0th.png">
+<img src="Day5/5th.png">
+<img src="Day5/7th.png">
+Due to now having 0 DRC violations we can proceed to extract parasitics. We will do this by using the SPEF Extractor tool that comes with OpenLane
+<img src="Day5/FilesPost.png">
