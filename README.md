@@ -77,3 +77,7 @@ We are gonna test the circuit using a pulse wave source as its entrance, so we a
 Here we can see the aproximate rise time (20% -> 80%) = 0.0663ns and the propagation delay = 0.06897ns if the output capacitance is 2.4f F
 
 # Day 4
+## Track Info
+It is important to know how much space the standard cell occupies, and how much of it is correctly positioned. For this we will check the tracks.info file found inside the pdks folder, this will help us create a grid to position the layout correctly
+<img src="Day4/Tracks.png">
+<img src="Day4/Grid.png">
