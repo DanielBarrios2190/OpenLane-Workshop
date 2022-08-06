@@ -2,6 +2,23 @@
 This repository contains all the steps made during the VSD-AIT ADVANCED PHYSICAL DESIGN USING OPENLANE/SKY130 Workshop. 
 This will be described step by step and day by day.
 
+# Table of Contents
+  - [Day 1 - Inception of open-source EDA, OpenLANE and Sky130 PDK](#day-1)
+    - [Exploring the Files](#exploring-the-files)
+    - [Using OpenLane](#using-openlane)
+  - [Day 2 - Good floorplan vs bad floorplan and introduction to library cells](#day-2)
+    - [Floorplanning](#floorplanning)
+    - [Placement](#placement)
+  - [Day 3 - Design library cell using Magic Layout and ngspice characterization](#day-3)
+    - [STD Cells Using SPICE](#std-cells-spice)
+  - [Day 4 - Pre-layout timing analysis and importance of good clock tree](#day-4)
+    - [Track Info](#track-info)
+    - [Fixing Slack](#fixing-slack)
+    - [CTS](#cts)
+  - [Day 5 - Final steps for RTL2GDS](#day-5)
+    - [Routing](#routing)
+  - [Conclusions](#conclusions)
+
 # Day 1
 ## Exploring the files
 To understand what is inside the PDKs, we will enter the folders
