@@ -41,9 +41,12 @@ We can also check the config.tcl used this run and see which variables were chan
 <img src="Day2/Configtcl.png">
 <img src="Day2/Configtc2.png">
 Our changes to the metals were successful as well as the core size. Checking also the def and lef files using magic we get the following
+<img src="Day2/ResultsFP.png">
+We used a Die area of 660.685 um * 671.405 um = 443587.212 um^2
 <img src="Day2/MagicFP.png">
 <img src="Day2/PinsFP.png">
 <img src="Day2/PinsFP2.png">
+
 
 ## Placement
 First we are going to do the global placement which is a rough sketch of the placement, usign the run_placement command. This will iterate the position of the blocks until the timing is correct. And then we can legalized with the detailed placement
@@ -51,3 +54,26 @@ First we are going to do the global placement which is a rough sketch of the pla
 <img src="Day2/PlacementMagic.png">
 On magic we can check the changes as such. If we zoom in we can see the standard cells placed in the design
 <img src="Day2/PlacementZoom.png">
+
+# Day 3
+## STD Cells SPICE
+First of all we are not designing a standard cell from zero, we will use one from Nickson Jose (Thanks!) : git clone https://github.com/nickson-jose/vsdstdcelldesign.git.
+<img src="Day3/Cloning.png">
+Opening this file in magic shows the following
+<img src="Day3/MagicLayout.png">
+We make sure everything is connected according to our circuit and so we press S twice to check connectivity of each pin
+<img src="Day3/PinCon.png">
+Then to make sure this is the logic function we want, and to characterize the cell we have to use SPICE, to do that first extract the cell using the command extract all , and creating the .ext file then converting it to SPICE with ext2spice
+<img src="Day3/ExtSpice.png">
+<img src="Day3/SPICE.png">
+Here we have to change the scale in which the parameters are used, for example magic's minimun unit is 0.01um so we change it to that. We also have to add references to the libs used. These are nshort.lib and pshort.lib
+We are gonna test the circuit using a pulse wave source as its entrance, so we add a PULSE source, then to setup VDD and VSS we add DC voltage sources. And finally using the tran directive we run a transient simulation using ngspice
+<img src="Day3/SPICEF.png">
+<img src="Day3/Sim2.png">
+<img src="Day3/Times.png">
+
+<img src="Day3/Times2.png">
+
+Here we can see the aproximate rise time (20% -> 80%) = 0.0663ns and the propagation delay = 0.06897ns if the output capacitance is 2.4f F
+
+# Day 4
