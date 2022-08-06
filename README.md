@@ -184,3 +184,7 @@ Now we want to do rounting so we use the run_routing command. This will iterate 
 <img src="Day5/7th.png">
 Due to now having 0 DRC violations we can proceed to extract parasitics. We will do this by using the SPEF Extractor tool that comes with OpenLane
 <img src="Day5/FilesPost.png">
+
+
+# Conclusions
+We have learned how to use the OpenLane design flow, how does it work with every step and which tools it uses, we also learned how to do a correct floorplan, how does it affect the timing, characterizing new cells and creating a standard cell from scratch. How to fix timing violations and remaking the verilog files with corrections. And finally doing the routing and having our full gds file. This took a lot of work and patiente to pull off but it was a very fulfilling experience!
