@@ -74,6 +74,6 @@ We are gonna test the circuit using a pulse wave source as its entrance, so we a
 
 <img src="Day3/Times2.png">
 
-Here we can see the aproximate rise time (20% -> 80%) = 0.663ns and the propagation delay = 0.06897ns if the output capacitance is 2.4f F
+Here we can see the aproximate rise time (20% -> 80%) = 0.0663ns and the propagation delay = 0.06897ns if the output capacitance is 2.4f F
 
 # Day 4
